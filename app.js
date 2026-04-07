@@ -698,10 +698,14 @@ async function fetchLiveData() {
     `&timezone=auto`;
 
   try {
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 8000);
+
     const [aqRes, wxRes] = await Promise.all([
-      fetch(AQ_URL, { signal: AbortSignal.timeout(8000) }),
-      fetch(WX_URL, { signal: AbortSignal.timeout(8000) }),
+      fetch(AQ_URL, { signal: controller.signal }),
+      fetch(WX_URL, { signal: controller.signal }),
     ]);
+    clearTimeout(tid);
 
     if (!aqRes.ok || !wxRes.ok) throw new Error('API response not OK');
 
