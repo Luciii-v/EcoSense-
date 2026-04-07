@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoSense – Smart Environmental Monitoring System</title>
+  <meta name="description" content="EcoSense is a Smart City Environmental Health Dashboard monitoring AQI, greenhouse gases, water quality, and your personal carbon footprint in real time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-brand">
+      <span class="nav-logo" aria-hidden="true">🌿</span>
+      <span class="nav-name">EcoSense</span>
+    </div>
+    <ul class="nav-links" role="list">
+      <li><a href="#monitor" class="nav-link">Live Monitor</a></li>
+      <li><a href="#ghg" class="nav-link">GHG Tracker</a></li>
+      <li><a href="#water" class="nav-link">Water Quality</a></li>
+      <li><a href="#calculator" class="nav-link">Carbon Calc</a></li>
+      <li><a href="#tips" class="nav-link">Eco Tips</a></li>
+      <li><a href="#team" class="nav-link">Team</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="nav-action-btn" id="themeToggle" aria-label="Toggle light/dark mode" title="Toggle Theme">🌙</button>
+      <button class="nav-action-btn" id="shareBtn" aria-label="Share / QR Code" title="Share">🔗</button>
+      <button class="nav-action-btn btn-pdf" id="pdfBtn" aria-label="Download PDF report" title="Download PDF">📄 PDF</button>
+    </div>
+    <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <header class="hero" id="hero" role="banner">
+    <div class="hero-particles" aria-hidden="true" id="heroParticles"></div>
+    <div class="hero-content">
+      <div class="hero-badge">🛰️ Live Sensor Network Active</div>
+      <h1 class="hero-title">Eco<span class="accent">Sense</span></h1>
+      <p class="hero-subtitle">Smart City Environmental Monitoring System</p>
+      <p class="hero-desc">Real-time IoT-powered dashboard tracking Air Quality, Greenhouse Gases, Water Purity &amp; your Carbon Footprint — all in one place.</p>
+      <div class="hero-cta-group">
+        <a href="#monitor" class="btn btn-primary">View Live Data</a>
+        <a href="#calculator" class="btn btn-secondary">Calculate Footprint</a>
+      </div>
+      <div class="global-alert" id="globalAlert" role="alert" aria-live="polite">
+        <span class="alert-dot" id="alertDot"></span>
+        <span id="alertText">Initialising sensors…</span>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="globe-ring ring-1"></div>
+      <div class="globe-ring ring-2"></div>
+      <div class="globe-ring ring-3"></div>
+      <div class="globe-core">🌍</div>
+    </div>
+  </header>
+
+  <!-- PRINT HEADER (only visible when printing) -->
+  <div class="print-header" aria-hidden="true">
+    <div class="print-logo">🌿 EcoSense – Smart Environmental Monitoring System</div>
+    <div class="print-meta">EVS End Term Project · Vivaan Veer Mahatha (S25CSEU1110) · Sarthak Singh (S25CSEU1093) · Atharv Singh (S25CSEU1115)</div>
+    <div class="print-date" id="printDate"></div>
+  </div>
+
+  <main>
+
+    <!-- LIVE AQI MONITOR -->
+    <section class="section" id="monitor" aria-labelledby="monitorHeading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">📡 Real-Time API</span>
+          <h2 class="section-title" id="monitorHeading">Live Air Quality Monitor</h2>
+          <p class="section-sub">Real data from Open-Meteo · Refreshes every 60 seconds · Select your city below</p>
+          <div class="city-selector-wrap">
+            <label for="citySelect" class="city-label">🇮🇳 Select City / State</label>
+            <select id="citySelect" class="city-select" aria-label="Select Indian city">
+              <optgroup label="North India">
+                <option value="28.6139,77.2090,Delhi">Delhi (NCT)</option>
+                <option value="28.5355,77.3910,Noida">Noida, UP</option>
+                <option value="28.4595,77.0266,Gurgaon">Gurgaon, Haryana</option>
+                <option value="30.7333,76.7794,Chandigarh">Chandigarh</option>
+                <option value="26.9124,75.7873,Jaipur">Jaipur, Rajasthan</option>
+                <option value="26.8467,80.9462,Lucknow">Lucknow, UP</option>
+                <option value="25.3176,82.9739,Varanasi">Varanasi, UP</option>
+                <option value="30.3165,78.0322,Dehradun">Dehradun, Uttarakhand</option>
+                <option value="31.1048,77.1734,Shimla">Shimla, HP</option>
+              </optgroup>
+              <optgroup label="West India">
+                <option value="19.0760,72.8777,Mumbai">Mumbai, Maharashtra</option>
+                <option value="18.5204,73.8567,Pune">Pune, Maharashtra</option>
+                <option value="23.0225,72.5714,Ahmedabad">Ahmedabad, Gujarat</option>
+                <option value="21.1702,72.8311,Surat">Surat, Gujarat</option>
+              </optgroup>
+              <optgroup label="South India">
+                <option value="12.9716,77.5946,Bangalore">Bangalore, Karnataka</option>
+                <option value="13.0827,80.2707,Chennai">Chennai, Tamil Nadu</option>
+                <option value="17.3850,78.4867,Hyderabad">Hyderabad, Telangana</option>
+                <option value="9.9312,76.2673,Kochi">Kochi, Kerala</option>
+                <option value="11.0168,76.9558,Coimbatore">Coimbatore, Tamil Nadu</option>
+              </optgroup>
+              <optgroup label="East India">
+                <option value="22.5726,88.3639,Kolkata">Kolkata, West Bengal</option>
+                <option value="25.5941,85.1376,Patna">Patna, Bihar</option>
+                <option value="20.2961,85.8245,Bhubaneswar">Bhubaneswar, Odisha</option>
+                <option value="26.1445,91.7362,Guwahati">Guwahati, Assam</option>
+              </optgroup>
+              <optgroup label="Central India">
+                <option value="23.2599,77.4126,Bhopal">Bhopal, MP</option>
+                <option value="21.1458,79.0882,Nagpur">Nagpur, Maharashtra</option>
+                <option value="21.2514,81.6296,Raipur">Raipur, Chhattisgarh</option>
+              </optgroup>
+            </select>
+            <div class="api-status" id="apiStatus">
+              <span class="api-dot" id="apiDot"></span>
+              <span id="apiStatusText">Connecting…</span>
+            </div>
+          </div>
+        </div>
+        <div class="aqi-hero-wrap">
+          <div class="card gauge-card" aria-live="polite">
+            <h3 class="card-title">Air Quality Index</h3>
+            <div class="gauge-wrap">
+              <svg class="gauge-svg" viewBox="0 0 220 130" aria-label="AQI gauge">
+                <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#1e2a3a" stroke-width="18" stroke-linecap="round"/>
+                <path id="gaugeArc" d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke-width="18" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="283"/>
+                <line id="gaugeNeedle" x1="110" y1="110" x2="110" y2="35" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="110" cy="110" r="8" fill="#1e2a3a" stroke="#fff" stroke-width="2"/>
+              </svg>
+              <div class="gauge-value-wrap">
+                <span class="gauge-value" id="aqiValue">--</span>
+                <span class="gauge-label" id="aqiLabel">Calculating…</span>
+              </div>
+            </div>
+            <div class="aqi-scale">
+              <span style="color:#22c55e">Good</span>
+              <span style="color:#eab308">Moderate</span>
+              <span style="color:#f97316">Unhealthy</span>
+              <span style="color:#ef4444">Hazardous</span>
+            </div>
+          </div>
+
+          <div class="card pollutant-card">
+            <h3 class="card-title">Pollutant Breakdown</h3>
+            <div class="pollutants" role="list">
+              <div class="pollutant-row" role="listitem">
+                <div class="p-label"><span class="p-name">PM<sub>2.5</sub></span><span class="p-value" id="pm25Val">--</span><span class="p-unit">µg/m³</span></div>
+                <div class="p-bar-track"><div class="p-bar" id="pm25Bar"></div></div>
+              </div>
+              <div class="pollutant-row" role="listitem">
+                <div class="p-label"><span class="p-name">PM<sub>10</sub></span><span class="p-value" id="pm10Val">--</span><span class="p-unit">µg/m³</span></div>
+                <div class="p-bar-track"><div class="p-bar" id="pm10Bar"></div></div>
+              </div>
+              <div class="pollutant-row" role="listitem">
+                <div class="p-label"><span class="p-name">NO<sub>2</sub></span><span class="p-value" id="no2Val">--</span><span class="p-unit">ppb</span></div>
+                <div class="p-bar-track"><div class="p-bar" id="no2Bar"></div></div>
+              </div>
+              <div class="pollutant-row" role="listitem">
+                <div class="p-label"><span class="p-name">CO</span><span class="p-value" id="coVal">--</span><span class="p-unit">ppm</span></div>
+                <div class="p-bar-track"><div class="p-bar" id="coBar"></div></div>
+              </div>
+              <div class="pollutant-row" role="listitem">
+                <div class="p-label"><span class="p-name">O<sub>3</sub></span><span class="p-value" id="o3Val">--</span><span class="p-unit">ppb</span></div>
+                <div class="p-bar-track"><div class="p-bar" id="o3Bar"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card stats-card">
+            <h3 class="card-title">Today's Snapshot</h3>
+            <div class="stat-grid">
+              <div class="stat-item"><span class="stat-icon">🌡️</span><span class="stat-val" id="tempVal">--</span><span class="stat-label">Temp °C</span></div>
+              <div class="stat-item"><span class="stat-icon">💧</span><span class="stat-val" id="humidVal">--</span><span class="stat-label">Humidity %</span></div>
+              <div class="stat-item"><span class="stat-icon">💨</span><span class="stat-val" id="windVal">--</span><span class="stat-label">Wind km/h</span></div>
+              <div class="stat-item"><span class="stat-icon">☀️</span><span class="stat-val" id="uvVal">--</span><span class="stat-label">UV Index</span></div>
+            </div>
+            <div class="last-updated">🔄 Last updated: <span id="lastUpdated">–</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GHG TRACKER -->
+    <section class="section section-alt" id="ghg" aria-labelledby="ghgHeading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">🏭 Emissions</span>
+          <h2 class="section-title" id="ghgHeading">Greenhouse Gas Tracker</h2>
+          <p class="section-sub">Simulated atmospheric concentration readings from local sensor array</p>
+        </div>
+        <div class="ghg-grid">
+          <div class="card ghg-main-card">
+            <div class="ghg-header">
+              <div>
+                <h3 class="card-title">Carbon Dioxide (CO₂)</h3>
+                <p class="card-sub">Atmospheric concentration</p>
+              </div>
+              <div class="ghg-value-wrap">
+                <span class="ghg-big-val" id="co2Val">--</span>
+                <span class="ghg-unit">ppm</span>
+              </div>
+            </div>
+            <canvas id="co2Chart" class="co2-canvas" aria-label="CO2 trend chart" role="img"></canvas>
+            <div class="ghg-meta">
+              <span class="ghg-meta-item" id="co2Trend">↗ Trend: loading…</span>
+              <span class="ghg-meta-item">Safe limit: <strong>350 ppm</strong></span>
+            </div>
+          </div>
+          <div class="ghg-side-cards">
+            <div class="card ghg-side-card">
+              <div class="ghg-icon-wrap" style="--ghg-color:#a855f7;">🔥</div>
+              <h3 class="card-title">Methane (CH₄)</h3>
+              <span class="ghg-mid-val" id="ch4Val">--</span>
+              <span class="ghg-unit">ppb</span>
+              <canvas id="ch4Spark" class="sparkline" aria-label="CH4 sparkline"></canvas>
+              <div class="ghg-status" id="ch4Status">–</div>
+            </div>
+            <div class="card ghg-side-card">
+              <div class="ghg-icon-wrap" style="--ghg-color:#f97316;">⚡</div>
+              <h3 class="card-title">Nitrous Oxide (N₂O)</h3>
+              <span class="ghg-mid-val" id="n2oVal">--</span>
+              <span class="ghg-unit">ppb</span>
+              <canvas id="n2oSpark" class="sparkline" aria-label="N2O sparkline"></canvas>
+              <div class="ghg-status" id="n2oStatus">–</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WATER QUALITY -->
+    <section class="section" id="water" aria-labelledby="waterHeading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">💧 Water</span>
+          <h2 class="section-title" id="waterHeading">Water Quality Index</h2>
+          <p class="section-sub">Monitoring source: Municipal reservoir feed · Sensor depth: 2m</p>
+        </div>
+        <div class="water-grid">
+          <div class="card water-donut-card">
+            <h3 class="card-title">WQI Score</h3>
+            <div class="donut-wrapper">
+              <canvas id="wqiDonut" class="donut-canvas" aria-label="Water Quality Index donut chart" role="img"></canvas>
+              <div class="donut-center-val">
+                <span id="wqiScore">--</span>
+                <small id="wqiRating">–</small>
+              </div>
+            </div>
+          </div>
+          <div class="water-params">
+            <div class="card water-param-card">
+              <span class="param-icon">🧪</span>
+              <div class="param-info">
+                <span class="param-name">pH Level</span>
+                <div class="param-bar-wrap"><div class="param-bar-track"><div class="param-bar" id="phBar"></div></div><span class="param-val" id="phVal">--</span></div>
+                <span class="param-range">Safe: 6.5 – 8.5</span>
+              </div>
+            </div>
+            <div class="card water-param-card">
+              <span class="param-icon">🌊</span>
+              <div class="param-info">
+                <span class="param-name">Turbidity</span>
+                <div class="param-bar-wrap"><div class="param-bar-track"><div class="param-bar" id="turbidBar"></div></div><span class="param-val" id="turbidVal">--</span></div>
+                <span class="param-range">Safe: &lt; 4 NTU</span>
+              </div>
+            </div>
+            <div class="card water-param-card">
+              <span class="param-icon">🫧</span>
+              <div class="param-info">
+                <span class="param-name">Dissolved Oxygen</span>
+                <div class="param-bar-wrap"><div class="param-bar-track"><div class="param-bar" id="doBar"></div></div><span class="param-val" id="doVal">--</span></div>
+                <span class="param-range">Safe: ≥ 6 mg/L</span>
+              </div>
+            </div>
+            <div class="card water-param-card">
+              <span class="param-icon">🦠</span>
+              <div class="param-info">
+                <span class="param-name">Coliform Count</span>
+                <div class="param-bar-wrap"><div class="param-bar-track"><div class="param-bar" id="coliformBar"></div></div><span class="param-val" id="coliformVal">--</span></div>
+                <span class="param-range">Safe: &lt; 10 CFU/100mL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARBON CALCULATOR -->
+    <section class="section section-alt" id="calculator" aria-labelledby="calcHeading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">🧮 Calculator</span>
+          <h2 class="section-title" id="calcHeading">Personal Carbon Footprint Calculator</h2>
+          <p class="section-sub">Enter your monthly lifestyle data to estimate your CO₂e emissions</p>
+        </div>
+        <div class="calc-layout">
+          <form class="card calc-form" id="carbonForm" aria-label="Carbon footprint calculator" novalidate>
+            <div class="form-group">
+              <label for="carKm">🚗 Car travel (km/month)</label>
+              <input type="number" id="carKm" min="0" max="5000" value="500" />
+            </div>
+            <div class="form-group">
+              <label for="flightHours">✈️ Flight hours (per month)</label>
+              <input type="number" id="flightHours" min="0" max="200" value="2" />
+            </div>
+            <div class="form-group">
+              <label for="electricityKwh">⚡ Electricity (kWh/month)</label>
+              <input type="number" id="electricityKwh" min="0" max="3000" value="300" />
+            </div>
+            <div class="form-group">
+              <label for="meatMeals">🥩 Meat meals (per week)</label>
+              <input type="number" id="meatMeals" min="0" max="21" value="7" />
+            </div>
+            <div class="form-group">
+              <label for="shoppingItems">🛍️ Online shopping items (per month)</label>
+              <input type="number" id="shoppingItems" min="0" max="100" value="5" />
+            </div>
+            <button type="submit" class="btn btn-primary calc-btn" id="calcSubmit">Calculate My Footprint</button>
+          </form>
+
+          <div class="calc-result-panel" id="calcResultPanel" aria-live="polite">
+            <div class="card result-card" id="resultCard">
+              <div class="result-icon" id="resultIcon">🌱</div>
+              <h3 class="result-heading">Your Monthly Footprint</h3>
+              <div class="result-value-wrap">
+                <span class="result-value" id="resultValue">0.0</span>
+                <span class="result-unit">kg CO₂e</span>
+              </div>
+              <div class="result-rating" id="resultRating">Fill in the form →</div>
+              <div class="result-breakdown" id="resultBreakdown">
+                <h4>Breakdown</h4>
+                <div class="breakdown-item"><span>🚗 Transport</span><span id="breakTransport">–</span></div>
+                <div class="breakdown-item"><span>✈️ Aviation</span><span id="breakAviation">–</span></div>
+                <div class="breakdown-item"><span>⚡ Energy</span><span id="breakEnergy">–</span></div>
+                <div class="breakdown-item"><span>🥩 Diet</span><span id="breakDiet">–</span></div>
+                <div class="breakdown-item"><span>🛍️ Shopping</span><span id="breakShopping">–</span></div>
+              </div>
+              <div class="reduction-tips" id="reductionTips"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ECO TIPS -->
+    <section class="section" id="tips" aria-labelledby="tipsHeading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">🌱 Daily Tips</span>
+          <h2 class="section-title" id="tipsHeading">Eco Tips of the Day</h2>
+          <p class="section-sub">Auto-rotating every 5 seconds · Click arrows to navigate</p>
+        </div>
+        <div class="tips-carousel" role="region" aria-label="Eco tips carousel">
+          <button class="carousel-btn prev-btn" id="prevTip" aria-label="Previous tip">&#8249;</button>
+          <div class="tips-track" id="tipsTrack"></div>
+          <button class="carousel-btn next-btn" id="nextTip" aria-label="Next tip">&#8250;</button>
+        </div>
+        <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Tip navigation dots"></div>
+      </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="section section-alt" id="team" aria-labelledby="teamHeading">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">👥 Project Team</span>
+          <h2 class="section-title" id="teamHeading">Meet the Team</h2>
+          <p class="section-sub">EVS End Term Evaluation · UPES School of Computer Science</p>
+        </div>
+        <div class="team-grid">
+          <div class="card team-card">
+            <div class="team-avatar" style="--av-color:hsl(145,70%,45%);">VVM</div>
+            <h3 class="team-name">Vivaan Veer Mahatha</h3>
+            <p class="team-roll">S25CSEU1110</p>
+            <p class="team-role">Lead Developer &amp; System Architect</p>
+            <div class="team-tags"><span class="tag">Frontend</span><span class="tag">Data Viz</span><span class="tag">IoT Sim</span></div>
+          </div>
+          <div class="card team-card">
+            <div class="team-avatar" style="--av-color:hsl(210,70%,55%);">SS</div>
+            <h3 class="team-name">Sarthak Singh</h3>
+            <p class="team-roll">S25CSEU1093</p>
+            <p class="team-role">Research &amp; Environmental Data Analyst</p>
+            <div class="team-tags"><span class="tag">Research</span><span class="tag">GHG Data</span><span class="tag">Water QI</span></div>
+          </div>
+          <div class="card team-card">
+            <div class="team-avatar" style="--av-color:hsl(35,85%,55%);">AS</div>
+            <h3 class="team-name">Atharv Singh</h3>
+            <p class="team-roll">S25CSEU1115</p>
+            <p class="team-role">UX Designer &amp; Content Strategist</p>
+            <div class="team-tags"><span class="tag">Design</span><span class="tag">UX</span><span class="tag">Eco Tips</span></div>
+          </div>
+        </div>
+        <div class="card project-info-card">
+          <div class="project-info-grid">
+            <div class="project-info-item"><span class="pi-label">Project</span><span class="pi-val">EcoSense – Smart Environmental Monitoring System</span></div>
+            <div class="project-info-item"><span class="pi-label">Course</span><span class="pi-val">Environmental Studies (EVS) – End Term Evaluation</span></div>
+            <div class="project-info-item"><span class="pi-label">Concept</span><span class="pi-val">Smart City IoT-based real-time environmental health tracking</span></div>
+            <div class="project-info-item"><span class="pi-label">Year</span><span class="pi-val">2025–26 · B.Tech CSE · Semester II</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-brand"><span>🌿</span> <strong>EcoSense</strong></div>
+      <p class="footer-note">Air quality &amp; weather data powered by <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo API</a> (free, open-source) · GHG &amp; Water data simulated · EVS End-Term Project · 2026</p>
+      <p class="footer-copy">Built with ❤️ for a Greener Planet</p>
+    </div>
+  </footer>
+
+  <!-- QR / SHARE MODAL -->
+  <div class="modal-overlay" id="qrModal" role="dialog" aria-modal="true" aria-label="Share EcoSense" hidden>
+    <div class="modal-box">
+      <button class="modal-close" id="qrModalClose" aria-label="Close">✕</button>
+      <h2 class="modal-title">📡 Share EcoSense</h2>
+      <p class="modal-sub">Scan or copy the link to share this dashboard</p>
+      <div class="qr-img-wrap">
+        <img id="qrImage" src="" alt="QR Code for EcoSense" width="200" height="200" />
+      </div>
+      <div class="share-url-row">
+        <input class="share-url-input" id="shareUrl" readonly />
+        <button class="btn btn-primary copy-btn" id="copyUrlBtn">Copy</button>
+      </div>
+      <p class="modal-hint">🌿 After deploying to Vercel, the QR code will update automatically to your live URL.</p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
